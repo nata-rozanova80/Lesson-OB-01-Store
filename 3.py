@@ -11,7 +11,7 @@ class Store:
         Store.store_list.append(self)  # Добавление нового магазина в список
 
     @classmethod
-    def list_store(cls):
+    def list_store(cls): #1
         print("Список магазинов:")
         if cls.store_list:  # Проверка на непустоту списка
             for store in cls.store_list:
@@ -20,7 +20,7 @@ class Store:
             print("Список пуст.")  # Сообщение, если список пуст
 
     @classmethod
-    def add_store(cls):
+    def add_store(cls): #2
         while True:  # Цикл для повторных запросов
             print("Добавление нового магазина...")
             name = input("Введите название магазина: ")
@@ -42,7 +42,7 @@ class Store:
             if another_store != "да":
                 break  # Выход из цикла добавления магазинов
 
-    #@classmethod  ##3
+     ##3
     def add_item(self):
 
         while True:  # Цикл для добавления товаров
@@ -93,7 +93,28 @@ class Store:
         else:
             print(f"Товар '{item_name}' не найден.")
 
-def start_work():  # 7
+#@classmethod  ##7
+    def print_item_dict(self):
+        if self.items:  # Проверяем, есть ли товары в словаре
+            print("\nТекущий список товаров:")
+            for item, price in self.items.items():
+                print(f"Товар: {item}, Цена: {price} рублей.")
+        else:
+            print("Список товаров пуст.")
+
+        # while True:  # Цикл для добавления товаров
+        #     print(f"Товар '{item_name}' с ценой {price} добавлен.")
+        #         break  # Выход из цикла, если пользователь хочет завершить добавление товаров
+        #
+        #     try:
+        #         price = float(input("Введите цену товара: "))
+        #         self.items[item_name] = price  # Добавление товара в словарь
+        #         print(f"Товар '{item_name}' с ценой {price} добавлен.")
+        #     except ValueError:
+        #         print("Пожалуйста, введите корректное значение цены.")
+
+
+def start_work():  # 8
     while True:
         print(f"\nМЕНЮ ПРОГРАММЫ")
         print(f"1. Список всех магазинов")
@@ -102,7 +123,8 @@ def start_work():  # 7
         print(f"4. Удалить товары")
         print(f"5. Цена товара")
         print(f"6. Изменить цену товара")
-        print(f"7. Выход")
+        print(f"7. Список всех товаров")
+        print(f"8. Выход")
 
         number = input("Выберите номер действия: ")
 
@@ -139,10 +161,17 @@ def start_work():  # 7
             else:
                 print("Магазин не найден.")
         elif number == "7":
+            store_name = input("Введите название магазина, для показа товаров: ").strip()
+            store = next((s for s in Store.store_list if s.name == store_name), None)
+            if store:
+                store.print_item_dict()  # Вызов метода для конкретного магазина
+            else:
+                print("Магазин не найден.")
+        elif number == "8":
             print("Выход из программы.")
             sys.exit()
         else:
-            print("Некорректный ввод. Пожалуйста, выберите номер от 1 до 7.")
+            print("Некорректный ввод. Пожалуйста, выберите номер от 1 до 8.")
 
 # Запуск программы
 start_work()
