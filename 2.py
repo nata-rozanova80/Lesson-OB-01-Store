@@ -10,7 +10,7 @@ class Store:
         self.items = {}          # Инициализация пустого словаря
         Store.store_list.append(self)  # Добавление нового магазина в список
 
-    @classmethod #1
+    @classmethod # 1
     def list_store(cls):
         print("Список магазинов:")
         if cls.store_list:  # Проверка на непустоту списка
@@ -30,6 +30,7 @@ class Store:
             while True:  # Цикл для добавления товаров
                 user_input = input("Добавить товары? (да/нет): ").strip().lower()  # Запрос на ввод от пользователя
                 if user_input == "да":
+                    print("tuta")
                     store.add_item()  # Вызов процедуры добавления товара
                     break  # Выход из цикла добавления товаров, если товары были добавлены
                 elif user_input == "нет":
@@ -42,30 +43,31 @@ class Store:
             if another_store != "да":
                 break  # Выход из цикла добавления магазинов
 
-    def add_item(self): #3
-        print("in add_item")
-        while True:  # Цикл для добавления товаров
-            item_name = input("Введите название товара (или 'выход' для завершения): ").strip()
-            if item_name.lower() == 'выход':
-                user_input4 = input("Вернуться к добавлению магазина? (да/нет): ").strip().lower()  # Запрос на ввод от пользователя
-                if user_input4 == 'да':
-                    Store.add_store()
-                break  # Выход из цикла, если пользователь хочет завершить добавление товаров
+        @classmethod ##3
+        def add_item(cls):
+            print ("in add_item")
+            while True:  # Цикл для добавления товаров
+                item_name = input("Введите название товара (или 'выход' для завершения): ").strip()
+                if item_name.lower() == 'выход':
+                    user_input4 = input("Вернуться к добавлению магазина? (да/нет): ").strip().lower()  # Запрос на ввод от пользователя
+                    if user_input4 == 'да':
+                        Store.add_store()
+                    break  # Выход из цикла, если пользователь хочет завершить добавление товаров
 
-            try:
-                price = float(input("Введите цену товара: "))
-                self.items[item_name] = price  # Добавление товара в словарь
-                print(f"Товар '{item_name}' с ценой {price} добавлен.")
-            except ValueError:
-                print("Пожалуйста, введите корректное значение цены.")
+                try:
+                    price = float(input("Введите цену товара: "))
+                    cls.items[item_name] = price  # Добавление товара в словарь
+                    print(f"Товар '{item_name}' с ценой {price} добавлен.")
+                except ValueError:
+                    print("Пожалуйста, введите корректное значение цены.")
 
-    def remove_item(self): # 4
-        item_name = input("Введите название товара, который хотите удалить: ").strip()
-        if item_name in self.items:
-            del self.items[item_name]  # Удаление товара из словаря
-            print(f"Товар '{item_name}' успешно удален.")
-        else:
-            print(f"Товар '{item_name}' не найден.")
+        def remove_item(self): #4
+            item_name = input("Введите название товара, который хотите удалить: ").strip()
+            if item_name in self.items:
+                del self.items[item_name]  # Удаление товара из словаря
+                print(f"Товар '{item_name}' успешно удален.")
+            else:
+                print(f"Товар '{item_name}' не найден.")
 
         def item_price(self): #  5
             item_name = input("Введите название товара, цену которого хотите узнать: ").strip()
