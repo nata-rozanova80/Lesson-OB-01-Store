@@ -1,18 +1,16 @@
 #  Создай класс `Store`:
-# -Атрибуты класса:
-# - `name`: название магазина.
-# - `address`: адрес магазина.
-# - `items`: словарь, где ключ - название товара, а значение - его цена. Например, `{'apples': 0.5, 'bananas': 0.75}`.
+
 import sys
 class Store:
     # Создаем пустой список магазинов
     store_list = []
 
-    def __init__(self, name, address, items):  # 1) Method
+    def __init__(self, name, address, items):
         self.name = name          # Название магазина
         self.address = address  # Адрес магазина
         self.items = {}  # Инициализация пустого словаря
 
+    # 1)
     def list_store(self, store_list):
         print("Список магазинов:")
         for store in Store.store_list:
@@ -24,6 +22,7 @@ class Store:
         # Функция для добавления нового магазина
 
     @classmethod
+    # 2)
     def add_store(cls):
         while True:  # Цикл для повторных запросов
             print("Добавление нового магазина...")
@@ -31,7 +30,7 @@ class Store:
             address = input("Адрес: ")
 
             while True:  # Цикл для добавления товаров
-                print("Добавить товары?")
+                #print("Добавить товары?")
                 user_input = input("Добавить товары? (да/нет): ").strip().lower()  # Запрос на ввод от пользователя
 
                 if user_input == "да":
@@ -48,6 +47,7 @@ class Store:
                 break  # Выход из цикла добавления магазинов
 
     @classmethod
+    # 3)
     def add_item(cls):
         while True:  # Цикл для добавления товаров
             item_name = input("Введите название товара (или 'выход' для завершения): ").strip()
@@ -62,6 +62,7 @@ class Store:
                 print("Пожалуйста, введите корректное значение цены.")
 
     @classmethod
+    # 4)
     def remove_item(cls):
         item_name = input("Введите название товара, который хотите удалить: ").strip()
         if item_name in cls.items:
@@ -71,6 +72,7 @@ class Store:
             print(f"Товар '{item_name}' не найден.")
 
     @classmethod
+    # 5)
     def item_price(cls):
         item_name = input("Введите название товара, цену которого хотите узнать: ").strip()
         if item_name in cls.items:
@@ -79,6 +81,23 @@ class Store:
         else:
             print(f"Товар '{item_name}' не найден.")
 
+    @classmethod
+    # 6)
+    def price_change(cls):
+        item_name = input("Введите название товара, цену которого хотите изменить: ").strip()
+        if item_name in cls.items:
+            price = cls.items[item_name]  # Получаем цену товара из словаря
+            print(f"Цена '{item_name}' составляет '{price}' рублей.")
+            user_input3 = input("Изменить цену? (да/нет): ").strip().lower()  # Запрос на ввод от пользователя
+            if user_input3 == 'да':
+                try:
+                    new_price = float(input("Введите новую цену товара: "))  # Запрашиваем новую цену
+                    cls.items[item_name] = new_price  # Обновляем цену товара в словаре
+                    print(f"Цена товара '{item_name}' успешно изменена на {new_price} рублей.")
+                except ValueError:
+                    print("Пожалуйста, введите корректное значение цены.")
+        else:
+            print(f"Товар '{item_name}' не найден.")
 
     # # Пример использования
     # my_instance = MyClass()
@@ -88,9 +107,6 @@ class Store:
 #         for key, value in self.my_dict.items():
 #             print(f"{key}: {value}")
 #
-# # Пример использования класса
-# obj = MyClass()
-# obj.display_dict()
 def start_work():
     while True:
         print(f"\nМЕНЮ ПРОГРАММЫ")
@@ -98,7 +114,7 @@ def start_work():
         print(f"2. Добавить магазин")
         print(f"3. Добавить товары") # КАК ВЫБРАТЬ МАГАЗИН ДЛЯ ДОБАВЛЕНИЯ???
         print(f"4. Удалить товары")
-        print(f"5. Цена товара") #метод для получения цены товара по его названию. Если товар отсутствует, возвращайте `None`.
+        print(f"5. Цена товара") # метод для получения цены товара по его названию. Если товар отсутствует, возвращайте `None`.
         print(f"6. Изменить цену товара") # метод для обновления цены товара.
         print(f"7. Выход")
 
@@ -116,7 +132,7 @@ def start_work():
         elif number == "5":
             Store.item_price()
         elif number == "6":
-            Store.add_task()
+            Store.price_change()
         elif number == "7":
             print("Выход из программы.")
             sys.exit() # Завершение работы программы
