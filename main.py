@@ -47,6 +47,37 @@ class Store:
             if another_store != "да":
                 break  # Выход из цикла добавления магазинов
 
+    @classmethod
+    def add_item(cls):
+        while True:  # Цикл для добавления товаров
+            item_name = input("Введите название товара (или 'выход' для завершения): ").strip()
+            if item_name.lower() == 'выход':
+                break  # Выход из цикла, если пользователь хочет завершить добавление товаров
+
+            try:
+                price = float(input("Введите цену товара: "))
+                cls.items[item_name] = price  # Добавление товара в словарь
+                print(f"Товар '{item_name}' с ценой {price} добавлен.")
+            except ValueError:
+                print("Пожалуйста, введите корректное значение цены.")
+
+    @classmethod
+    def remove_item(cls):
+        item_name = input("Введите название товара, который хотите удалить: ").strip()
+        if item_name in cls.items:
+            del cls.items[item_name]  # Удаление товара из словаря
+            print(f"Товар '{item_name}' успешно удален.")
+        else:
+            print(f"Товар '{item_name}' не найден.")
+
+    @classmethod
+    def item_price(cls):
+        item_name = input("Введите название товара, цену которого хотите узнать: ").strip()
+        if item_name in cls.items:
+            price = cls.items[item_name]  # Получаем цену товара из словаря
+            print(f"Цена '{item_name}' составляет '{price}' рублей.")
+        else:
+            print(f"Товар '{item_name}' не найден.")
 
 
     # # Пример использования
@@ -81,12 +112,12 @@ def start_work():
         elif number == "3":
             Store.add_item()
         elif number == "4":
-
-        elif number == "2":
-            Store.add_task()
-        elif number == "2":
-            Store.add_task()
+            Store.remove_item()
         elif number == "5":
+            Store.item_price()
+        elif number == "6":
+            Store.add_task()
+        elif number == "7":
             print("Выход из программы.")
             sys.exit() # Завершение работы программы
         else:
