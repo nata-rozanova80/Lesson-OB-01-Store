@@ -9,7 +9,9 @@ class Store:
         self.name = name          # Название магазина
         self.address = address  # Адрес магазина
         self.items = {}  # Инициализация пустого словаря
+        Store.store_list.append(self)  # Добавление нового магазина в список
 
+    @classmethod
     # 1)
     def list_store(self, store_list):
         print("Список магазинов:")
@@ -28,13 +30,15 @@ class Store:
             print("Добавление нового магазина...")
             name = input("Введите название магазина: ")
             address = input("Адрес: ")
+            store = Store(name, address)  # Создаем новый экземпляр Store
+            cls.store_list.append(store)  # Добавляем магазин в список
 
             while True:  # Цикл для добавления товаров
-                #print("Добавить товары?")
+
                 user_input = input("Добавить товары? (да/нет): ").strip().lower()  # Запрос на ввод от пользователя
 
                 if user_input == "да":
-                    Store.add_item()  # Вызов процедуры добавления товара
+                    store.add_item()  # Вызов процедуры добавления товара
                     break  # Выход из цикла добавления товаров, если товары были добавлены
                 elif user_input == "нет":
                     break  # Выход из цикла добавления товаров, если товары не нужны
@@ -46,9 +50,9 @@ class Store:
             if another_store != "да":
                 break  # Выход из цикла добавления магазинов
 
-    @classmethod
+   #@classmethod
     # 3)
-    def add_item(cls):
+    def add_item(self):
         while True:  # Цикл для добавления товаров
             item_name = input("Введите название товара (или 'выход' для завершения): ").strip()
             if item_name.lower() == 'выход':
@@ -56,43 +60,44 @@ class Store:
 
             try:
                 price = float(input("Введите цену товара: "))
-                cls.items[item_name] = price  # Добавление товара в словарь
+                self.items[item_name] = price  # Добавление товара в словарь
                 print(f"Товар '{item_name}' с ценой {price} добавлен.")
             except ValueError:
                 print("Пожалуйста, введите корректное значение цены.")
 
-    @classmethod
+    #@classmethod
     # 4)
-    def remove_item(cls):
+    def remove_item(self):
         item_name = input("Введите название товара, который хотите удалить: ").strip()
-        if item_name in cls.items:
-            del cls.items[item_name]  # Удаление товара из словаря
+        if item_name in self.items:
+            del self.items[item_name]  # Удаление товара из словаря
             print(f"Товар '{item_name}' успешно удален.")
         else:
             print(f"Товар '{item_name}' не найден.")
 
-    @classmethod
-    # 5)
-    def item_price(cls):
+    #@classmethod
+    # 5)  # Метод для получения цены товара
+    def item_price(self):
         item_name = input("Введите название товара, цену которого хотите узнать: ").strip()
-        if item_name in cls.items:
-            price = cls.items[item_name]  # Получаем цену товара из словаря
+        if item_name in self.items:
+            price = self.items[item_name]  # Получаем цену товара из словаря
             print(f"Цена '{item_name}' составляет '{price}' рублей.")
         else:
             print(f"Товар '{item_name}' не найден.")
 
-    @classmethod
+    #@classmethod
     # 6)
-    def price_change(cls):
+    # Метод для изменения цены товара
+    def price_change(self):
         item_name = input("Введите название товара, цену которого хотите изменить: ").strip()
-        if item_name in cls.items:
-            price = cls.items[item_name]  # Получаем цену товара из словаря
+        if item_name in self.items:
+            price = self.items[item_name]  # Получаем цену товара из словаря
             print(f"Цена '{item_name}' составляет '{price}' рублей.")
             user_input3 = input("Изменить цену? (да/нет): ").strip().lower()  # Запрос на ввод от пользователя
             if user_input3 == 'да':
                 try:
                     new_price = float(input("Введите новую цену товара: "))  # Запрашиваем новую цену
-                    cls.items[item_name] = new_price  # Обновляем цену товара в словаре
+                    self.items[item_name] = new_price  # Обновляем цену товара в словаре
                     print(f"Цена товара '{item_name}' успешно изменена на {new_price} рублей.")
                 except ValueError:
                     print("Пожалуйста, введите корректное значение цены.")
@@ -126,17 +131,38 @@ def start_work():
         elif number == "2":
             Store.add_store()
         elif number == "3":
-            Store.add_item()
+            store_name = input("Введите название магазина, в который хотите добавить товары: ").strip()
+            store = next((s for s in Store.store_list if s.name == store_name), None)
+            if store:
+                store.add_item()
+            else:
+                print("Магазин не найден.")
         elif number == "4":
-            Store.remove_item()
+            store_name = input("Введите название магазина, из которого хотите удалить товары: ").strip()
+            store = next((s for s in Store.store_list if s.name == store_name), None)
+            if store:
+                store.remove_item()
+            else:
+                print("Магазин не найден.")
         elif number == "5":
-            Store.item_price()
+            store_name = input("Введите название магазина, в котором хотите узнать цену товара: ").strip()
+            store = next((s for s in Store.store_list if s.name == store_name), None)
+            if store:
+                store.item_price()
+            else:
+                print("Магазин не найден.")
         elif number == "6":
-            Store.price_change()
+            store_name = input("Введите название магазина, в котором хотите изменить цену товара: ").strip()
+            store = next((s for s in Store.store_list if s.name == store_name), None)
+            if store:
+                store.price_change()
+            else:
+                print("Магазин не найден.")
         elif number == "7":
             print("Выход из программы.")
-            sys.exit() # Завершение работы программы
+            sys.exit()
         else:
             print("Некорректный ввод. Пожалуйста, выберите номер от 1 до 7.")
+
 # Запуск программы
 start_work()
